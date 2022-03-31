@@ -134,7 +134,8 @@ func (r *clientResponse) UnmarshalJSON(raw []byte) error {
 	_, okID := o["id"]
 	_, okRes := o["result"]
 	_, okErr := o["error"]
-	if !okVer || !okID || !(okRes || okErr) || (okRes && okErr) || len(o) > 3 {
+	// if !okVer || !okID || !(okRes || okErr) || (okRes && okErr) || len(o) > 3 {
+	if !okVer || !okID || !(okRes || okErr) || (okRes && okErr) {
 		return errors.New("bad response: " + string(raw))
 	}
 	if r.Version != "2.0" {
@@ -154,7 +155,8 @@ func (r *clientResponse) UnmarshalJSON(raw []byte) error {
 		if oe["code"] == nil || oe["message"] == nil {
 			return errors.New("bad response: " + string(raw))
 		}
-		if _, ok := oe["data"]; (!ok && len(oe) > 2) || len(oe) > 3 {
+		// if _, ok := oe["data"]; (!ok && len(oe) > 2) || len(oe) > 3 {
+		if _, ok := oe["data"]; (!ok) {
 			return errors.New("bad response: " + string(raw))
 		}
 	}
